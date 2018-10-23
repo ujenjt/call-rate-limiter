@@ -1,0 +1,41 @@
+{
+  "name": "call-rate-limiter",
+  "version": "0.1.0",
+  "description": "Limit the execution rate of async function",
+  "main": "index.js",
+  "scripts": {
+    "clean": "rimraf coverage/",
+    "size": "size-limit",
+    "test": "jest --coverage"
+  },
+  "size-limit": [
+    {
+      "path": "index.js",
+      "limit": "1 KB"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ujenjt/call-rate-limiter.git"
+  },
+  "keywords": [
+    "rate",
+    "limit",
+    "function",
+    "api",
+    "rate-limit",
+    "request",
+    "call"
+  ],
+  "author": "Eugene Pshenichnyy <pshenichniy.eugene@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ujenjt/call-rate-limiter/issues"
+  },
+  "homepage": "https://github.com/ujenjt/call-rate-limiter#readme",
+  "devDependencies": {
+    "jest": "^23.6.0",
+    "rimraf": "^2.6.2",
+    "size-limit": "^0.20.1"
+  }
+}
