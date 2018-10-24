@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/ujenjt/call-rate-limiter.svg?branch=master)](https://travis-ci.org/ujenjt/call-rate-limiter)
+
 # Call Rate Limiter
 
 Limit the execution rate of any function by wrapping it with a function that returns `Promise`. Module uses sliding window rate limiter under the hood. For implementation details check out "How it works" section.
