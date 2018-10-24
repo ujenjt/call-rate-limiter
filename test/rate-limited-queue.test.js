@@ -10,7 +10,13 @@ describe('RateLimitedQueue', () => {
     mockNow.resetTime()
   })
 
-  it('should works', async () => {
+  it('should work with sync function', async () => {
+    const result = await queue.enqueue(() => 42, this, [])
+
+    expect(result).toBe(42)
+  })
+
+  it('should work with async function', async () => {
     const result = await queue.enqueue(() => Promise.resolve(42), this, [])
 
     expect(result).toBe(42)
