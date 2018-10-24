@@ -2,7 +2,11 @@
 
 # Call Rate Limiter
 
-Limit the execution rate of any function by wrapping it with a function that returns `Promise`. Module uses sliding window rate limiter under the hood. For implementation details check out "How it works" section.
+Call Rate Limiter is `async/await` friendly rate limit utilities for JavaScript.
+
+Often API providers prevent (or even ban) you from calling their API endpoints more often than specified number of times during defined timeframe. As a responsible developer, you want to respect this restrictions on your own side and not give API provider a reason to restrict your code from the API access. `call-rate-limiter` package provides utility functions to help you in achieving this goal.
+
+Rate limiting functions provided use sliding window rate limiter under the hood. Every function wrapped in rate limiter becomes a `Promise`-returning function. This `Promise` resolves then the function is called and, if it was async as well, only after returned `Promise` is resolved. Result of function execution is passed to `resolve` function.
 
 ## Install
 
@@ -13,32 +17,30 @@ npm install --save call-rate-limiter
 ## Usage
 ### Rate Limited Function
 
-Te basic use case is when you ninteracting with REST api and want to repspect rate limits upfront to prevent be banned by the server.
-
 `rateLimit` takes `limitCount`, `limitInterval` and `fn` as arguments and returns rate limited function which should be called instead of the function passed as `fn`.
 
-This means if you call `rateLimitedFunc` 150 times and only 100 can be called in time, the next 50 calls will be postponed and executed later to respect given rate limits.
+This means if you call `rateLimitedFunc` 150 times and only 100 can be called in timeframe, the next 50 calls will be postponed and executed later to respect given rate limits.
 
 ```javascript
 
 import {rateLimit} from 'call-rate-limiter'
 
-const rateLimitedFunc = rateLimit(
+const rateLimitedFetch = rateLimit(
   1200,
   60 * 1000,
   id => fetch('https://swapi.co/api/starships/${id}/').then(res => res.json())
 )
 
 /*
-  fetch Death Star specs, rateLimitedFunc
-  transparently passes args to wrapped function
+  fetch Death Star specs
+  rateLimit transparently passes args to wrapped function
 */
-const deathStar = await rateLimitedFunc('9')
+const deathStar = await rateLimitedFetch('9')
 ```
 
-### Rate Limited API
+### Rate limiting multiple functions by single limiter with `objectRateLimit` method
 
-Suppose, you have a bunch of api calls specified somewhere that you want to call under the same rate limits. It can be easily done with `objectRateLimit`:
+Suppose, there's number of APIs which have the same and only rate limit.
 
 ```javascript
 const basePath = 'https://swapi.co/api/'
@@ -57,7 +59,7 @@ module.exports = {
 }
 ```
 
-`objectRateLimit` takes `object` as last argument and return new object with rate-limited functions assigned for same keys:
+You can setup single rate limiter for a bunch of functions with `objectRateLimit` method. `objectRateLimit` takes `object` as last argument and return new object with rate-limited functions assigned for same keys:
 
 ```javascript
 import {objectRateLimit} from 'call-rate-limiter'
@@ -65,7 +67,7 @@ import api from './api'
 
 const rateLimitedApi = objectRateLimit(1200, 60 * 1000, api)
 
-// trying to enumerate all planets in a galaxy far away
+// trying to list all planets in a galaxy far away
 let i = 0
 while(i < 100000) {
   console.log(await rateLimitedApi.planet(i))
@@ -73,9 +75,9 @@ while(i < 100000) {
 }
 ```
 
-## Preventing bursting
+## Burst prevention
 
-Quite often, it is necessary to check not only compliance with the rate limits but also to avoid bursting. We want the function to be called no more than once each `N` milliseconds. To obtain this wrap your function with `throttle` than with `rateLimit`.
+`Call burst` is a situation where single function is called many times during short timeframe. That's a common issue with rate limiters, as they tend to unfreeze and send multiple requests to limited APIs as limit time window slides to allow new calls. Often you want to separate this calls by small timeout. To achieve this, you could use `throttle` functions, like the one [lodash provides](https://lodash.com/docs/4.17.10#throttle). Just wrap your API-calling function with `throttle` first and then wrap it in `rateLimit`.
 
 ```javascript
 import {yourFunction} from 'your-module'
@@ -93,7 +95,3 @@ const rateLimitedNoBurstingFunc = rateLimit(
   throttle(yourFunction, waitBetweenCalls)
 )
 ```
-
-## How it works
-
-TODO: implement
