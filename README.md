@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/ujenjt/call-rate-limiter.svg?branch=master)](https://travis-ci.org/ujenjt/call-rate-limiter)
+[![Coverage Status](https://coveralls.io/repos/github/ujenjt/call-rate-limiter/badge.svg)](https://coveralls.io/github/ujenjt/call-rate-limiter)
 
 # Call Rate Limiter
 

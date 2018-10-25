@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "clean": "rimraf coverage/",
+    "coveralls": "jest --coverage && cat ./tests/coverage/lcov.info | coveralls",
     "size": "size-limit",
     "test": "jest --coverage"
   },
@@ -34,6 +35,7 @@
   },
   "homepage": "https://github.com/ujenjt/call-rate-limiter#readme",
   "devDependencies": {
+    "coveralls": "^3.0.2",
     "jest": "^23.6.0",
     "rimraf": "^2.6.2",
     "size-limit": "^0.20.1"
