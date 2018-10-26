@@ -20,7 +20,7 @@ class RateLimitedQueue {
         ctx,
         args,
         resolve,
-        reject
+        reject,
       })
 
       this._scheduleNextExecutionifNeeded()
@@ -38,8 +38,8 @@ class RateLimitedQueue {
 
     const needsToSchedule = this.queue.length > 0 && !this.nextCallScheduled
     if (needsToSchedule) {
-      const waitUntilNextExecution =
-        this.limitInterval - (this.nowFn() - this.timestamps.oldestInWindow())
+      const waitUntilNextExecution
+        = this.limitInterval - (this.nowFn() - this.timestamps.oldestInWindow())
       this.intervalId = setTimeout(
         this._performExecution,
         waitUntilNextExecution
@@ -55,7 +55,7 @@ class RateLimitedQueue {
 
     if (task) {
       this.timestamps.push(this.nowFn())
-      const { fn, ctx, args, resolve, reject } = task
+      const { fn, ctx, args, resolve, reject, } = task
       try {
         resolve(fn.apply(ctx, args))
       } catch (err) {
