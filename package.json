@@ -6,8 +6,9 @@
   "scripts": {
     "clean": "rimraf coverage/",
     "coveralls": "jest --coverage && cat ./coverage/lcov.info | coveralls",
+    "lint": "eslint-ci *.js test/*.js",
     "size": "size-limit",
-    "test": "jest --coverage"
+    "test": "jest --coverage && npm run lint"
   },
   "size-limit": [
     {
@@ -36,6 +37,11 @@
   "homepage": "https://github.com/ujenjt/call-rate-limiter#readme",
   "devDependencies": {
     "coveralls": "^3.0.2",
+    "eslint": "^5.7.0",
+    "eslint-ci": "^0.1.1",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jest": "^21.26.1",
     "jest": "^23.6.0",
     "rimraf": "^2.6.2",
     "size-limit": "^0.20.1"

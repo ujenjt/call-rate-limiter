@@ -24,19 +24,17 @@ describe('RateLimitedQueue', () => {
 
   it('should respects rate limits', async () => {
     const now = Date.now()
-    const elapsedMs = _ => {
-      return Promise.resolve(Date.now() - now)
-    }
+    const elapsedMs = () => Promise.resolve(Date.now() - now)
 
-    const result1 = await queue.enqueue(elapsedMs, this, [])
-    const result2 = await queue.enqueue(elapsedMs, this, [])
-    const result3 = await queue.enqueue(elapsedMs, this, [])
+    await queue.enqueue(elapsedMs, this, [])
+    await queue.enqueue(elapsedMs, this, [])
+    const result = await queue.enqueue(elapsedMs, this, [])
 
-    expect(result3).not.toBeLessThan(1000)
+    expect(result).not.toBeLessThan(1000)
   })
 
   it('should throw out errors transparently', async () => {
-    const shouldThrow = _ => queue.enqueue(_ => {throw new Error()}, this, [])
+    const shouldThrow = () => queue.enqueue(() => { throw new Error() }, this, [])
     expect(shouldThrow()).rejects.toEqual(new Error())
   })
 })
