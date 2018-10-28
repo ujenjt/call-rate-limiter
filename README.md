@@ -5,7 +5,7 @@
 
 Call Rate Limiter is `async/await` friendly rate limit utilities for JavaScript.
 
-Often API providers prevent (or even ban) you from calling their API endpoints more often than specified number of times during defined timeframe. As a responsible developer, you want to respect this restrictions on your own side and not give API provider a reason to restrict your code from the API access. `call-rate-limiter` package provides utility functions to help you in achieving this goal.
+Often API providers prevent (or even ban) you from calling their API endpoints more often than specified number of times during defined time frame. As a responsible developer, you want to respect this restrictions on your own side and not give API provider a reason to restrict your code from the API access. `call-rate-limiter` package provides utility functions to help you in achieving this goal.
 
 Rate limiting functions provided use sliding window rate limiter under the hood. Every function wrapped in rate limiter becomes a `Promise`-returning function. This `Promise` resolves then the function is called and, if it was async as well, only after returned `Promise` is resolved. Result of function execution is passed to `resolve` function.
 
@@ -20,7 +20,7 @@ npm install --save call-rate-limiter
 
 `rateLimit` takes `limitCount`, `limitInterval` and `fn` as arguments and returns rate limited function which should be called instead of the function passed as `fn`.
 
-This means if you call `rateLimitedFunc` 150 times and only 100 can be called in timeframe, the next 50 calls will be postponed and executed later to respect given rate limits.
+This means if you call `rateLimitedFunc` 150 times and only 100 can be called in time frame, the next 50 calls will be postponed and executed later to respect given rate limits.
 
 ```javascript
 
@@ -78,7 +78,7 @@ while(i < 100000) {
 
 ## Burst prevention
 
-`Call burst` is a situation where single function is called many times during short timeframe. That's a common issue with rate limiters, as they tend to unfreeze and send multiple requests to limited APIs as limit time window slides to allow new calls. Often you want to separate this calls by small timeout. To achieve this, you could use `throttle` functions, like the one [lodash provides](https://lodash.com/docs/4.17.10#throttle). Just wrap your API-calling function with `throttle` first and then wrap it in `rateLimit`.
+`Call burst` is a situation where single function is called many times during short time frame. That's a common issue with rate limiters, as they tend to unfreeze and send multiple requests to limited APIs as limit time window slides to allow new calls. Often you want to separate this calls by small timeout. To achieve this, you could use `throttle` functions, like the one [lodash provides](https://lodash.com/docs/4.17.10#throttle). Just wrap your API-calling function with `throttle` first and then wrap it in `rateLimit`.
 
 ```javascript
 import {yourFunction} from 'your-module'
