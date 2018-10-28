@@ -3,7 +3,7 @@
 
 # Call Rate Limiter
 
-Call Rate Limiter is `async/await` friendly rate limit utilities for JavaScript.
+This is `async/await` friendly utility to limit the execution rate of any function. If you call the wrapped function more frequently than the rate limit allows, the wrapper avoided immediate call but arranges calls in the internal queue and call them later to ensure rate limit.
 
 Often API providers prevent (or even ban) you from calling their API endpoints more often than specified number of times during defined time frame. As a responsible developer, you want to respect this restrictions on your own side and not give API provider a reason to restrict your code from the API access. `call-rate-limiter` package provides utility functions to help you in achieving this goal.
 
