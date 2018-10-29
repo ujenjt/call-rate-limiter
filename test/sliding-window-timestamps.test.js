@@ -14,6 +14,11 @@ describe('SlidingWindowTimestams', () => {
     expect(timestamps.count()).toBe(0)
   })
 
+  it('uses default nowFn if it has not passed', () => {
+    const t = new SlidingWindowTimestams(1)
+    expect(t.nowFn).toBe(Date.now)
+  })
+
   it('take into account the timestamps of the window boundary', () => {
     timestamps.push(mockNow.now())
     mockNow.advanceTime(5)
