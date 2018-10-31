@@ -29,7 +29,7 @@ import {rateLimit} from 'call-rate-limiter'
 const rateLimitedFetch = rateLimit(
   1200,
   60 * 1000,
-  id => fetch('https://swapi.co/api/starships/${id}/').then(res => res.json())
+  id => fetch(`https://swapi.co/api/starships/${id}/`).then(res => res.json())
 )
 
 /*
