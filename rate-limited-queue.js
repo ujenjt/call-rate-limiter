@@ -23,7 +23,7 @@ class RateLimitedQueue {
         reject,
       })
 
-      this._scheduleNextExecutionifNeeded()
+      this._scheduleNextExecutionIfNeeded()
     })
   }
 
@@ -31,16 +31,17 @@ class RateLimitedQueue {
     return this.limitCount - this.timestamps.count()
   }
 
-  _scheduleNextExecutionifNeeded() {
+  _scheduleNextExecutionIfNeeded() {
     if (this._remainingExecutions() > 0) {
       this._performExecution()
     }
+
 
     const needsToSchedule = this.queue.length > 0 && !this.nextCallScheduled
     if (needsToSchedule) {
       const waitUntilNextExecution
         = this.limitInterval - (this.nowFn() - this.timestamps.oldestInWindow())
-      this.intervalId = setTimeout(
+      this.timeoutId = setTimeout(
         this._performExecution,
         waitUntilNextExecution
       )
@@ -62,7 +63,7 @@ class RateLimitedQueue {
         reject(err)
       }
 
-      this._scheduleNextExecutionifNeeded()
+      this._scheduleNextExecutionIfNeeded()
     }
   }
 
@@ -70,7 +71,7 @@ class RateLimitedQueue {
     this.queue = []
     this.timestamps.clear()
     this.nextCallScheduled = false
-    clearTimeout(this.intervalId)
+    clearTimeout(this.timeoutId)
   }
 }
 
