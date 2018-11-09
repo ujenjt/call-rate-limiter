@@ -3,7 +3,7 @@ const callRateLimiter = require('../')
 const { rateLimit, objectRateLimit, } = callRateLimiter
 
 describe('CallRateLimit module interface', () => {
-  it('rateLimit should works', async () => {
+  it('rateLimit should work', async () => {
     const fn = jest.fn().mockImplementation(() => Promise.resolve(42))
 
     const now = Date.now()
@@ -28,7 +28,7 @@ describe('CallRateLimit module interface', () => {
     expect(Date.now() - now).toBeGreaterThan(1000)
   })
 
-  it('objectRateLimit should works', async () => {
+  it('objectRateLimit should work', async () => {
     const api = {
       fn1: jest.fn().mockImplementation(() => Promise.resolve('first')),
       fn2: jest.fn().mockImplementation(() => Promise.resolve('second')),

@@ -1,9 +1,9 @@
-const SlidingWindowTimestams = require('../sliding-window-timestamps')
+const SlidingWindowTimestamps = require('../sliding-window-timestamps')
 const MockNow = require('./mock-now')
 
-describe('SlidingWindowTimestams', () => {
+describe('SlidingWindowTimestamps', () => {
   const mockNow = new MockNow(0)
-  const timestamps = new SlidingWindowTimestams(5, () => mockNow.now())
+  const timestamps = new SlidingWindowTimestamps(5, () => mockNow.now())
 
   beforeEach(() => {
     timestamps.clear()
@@ -15,7 +15,7 @@ describe('SlidingWindowTimestams', () => {
   })
 
   it('uses default nowFn if it has not passed', () => {
-    const t = new SlidingWindowTimestams(1)
+    const t = new SlidingWindowTimestamps(1)
     expect(t.nowFn).toBe(Date.now)
   })
 
@@ -46,18 +46,18 @@ describe('SlidingWindowTimestams', () => {
     expect(timestamps.count()).toBe(4)
   })
 
-  it('should displace timestamps out of window', () => {
+  it('should displace timestamps out of the window', () => {
     timestamps.push(mockNow.now())
     mockNow.advanceTime(6)
 
     expect(timestamps.count()).toBe(0)
   })
 
-  it('should return undefined if there is no oldest one in window', () => {
+  it('should return undefined if there is no oldest one in the window', () => {
     expect(timestamps.oldestInWindow()).toBe(undefined)
   })
 
-  it('should return undefined in case when oldest one out of window', () => {
+  it('should return undefined in case when oldest one out of the window', () => {
     mockNow.advanceTime(1)
     timestamps.push(mockNow.now())
 
